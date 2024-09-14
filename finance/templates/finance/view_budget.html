@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Monthly Budget</h2>
+<p><strong>Period:</strong> {{ start_of_month|date:"F Y" }} to {{ end_of_month|date:"F Y" }}</p>
+
+<table class="budget-list">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Budget</th>
+            <th>Spent</th>
+            <th>Remaining</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category, details in budget_dict.items %}
+        <tr>
+            <td>{{ category }}</td>
+            <td>{{ details.budget }}</td>
+            <td>{{ details.spent }}</td>
+            <td {% if details.remaining < 0 %}class="over-budget"{% endif %}>{{ details.remaining }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No budgets set for this period.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
